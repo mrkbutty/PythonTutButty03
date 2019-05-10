@@ -19,7 +19,18 @@ import sys
 
 
 def main():
-    pass
+    with open('testdata\poolinfo_150_470282.txt') as fd:
+        lines = fd.readlines()
+
+    print(f'number of lines = {len(lines)}')
+    for i, text in enumerate(lines):
+        text = text.strip()
+        print(text)
+        if i > 4: 
+            break
+    
+    return 0
+    
 
 
 if __name__ == '__main__':
