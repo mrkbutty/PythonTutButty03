@@ -16,6 +16,28 @@ Each pool detail list is seperated by a blank line
 '''
 
 import sys
+import re
+
+class AwkRule:
+    def __init__(self, **kwargs):
+        self.start = kwargs.get('start', None)
+        self.end = kwargs.get('end', None)
+        self.run = kwargs.get('function', None)
+        self.end = kwargs.get('skipstart', False)
+        self.end = kwargs.get('skipend', False)
+
+
+class Awk:
+
+    def __init__(self, filename, rules):
+
+        self.rules=list()
+        for i in rules:
+            self.rules.append(i)
+
+
+
+
 
 
 def main():
@@ -26,16 +48,19 @@ def main():
     for i, text in enumerate(lines):
         text = text.strip()
 
-        if text == 'DP' or text == 'TI':
+        match = re.match('^\s+(DP|TI|DP\(.*\))', text)
+        if match:
+            pooltype = match.group(1)
             section = 1
-            sectiontype = text
 
+        match = re.match('')
+        
         if text == '':
             section = 0
 
-        if section > 0 and not('No data' in text) and not('No Setting' in text) \
-            and not('0[MB]' in text) and not('0[%]' in text):
-            print(text)
+        if section == 1:
+            match = re.match('^(.*):(.*)', text)
+            
 
 
     return 0
