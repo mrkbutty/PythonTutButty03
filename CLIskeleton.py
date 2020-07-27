@@ -1,13 +1,13 @@
 #! /usr/bin/env python3
 # -*- coding: utf-8 -*-
+"""
+Template for building command line applications
+"""
+__author__  = "Mark Butterworth"
+__version__ = "0.01 (May 2020)"
+__license__ = "MIT"
 
-# CLIskeleton.py - Template for building command line applications
-# Usage:
-#   xxxxxx [options] <arg1> <arg2>
-
-# __author__  = "Mark Butterworth"
-# __version__ = "0.01 (May 2020)"
-# __license__ = "MIT"
+# Ver 0.01 0720  Initial version
 
 # Copyright 2020 Mark Butterworth
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,44 +26,38 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# Ver 0.01 0720  Initial version
-
 import sys
+import argparse
 
-USAGETEXT = '''
-    usage: CLarg3.py [options] <number1> <number2>
-        Adds <number1> to <number2>
+DEBUG = 0
+VERBOSE = False
 
-        Options:
-            -s = subtract <number1> from <number2>
-'''
 
-def add(a, b):
-    return a+b
-
-def subtract(a,b):
-    return a-b
-
-def output_calc(a, b, func, html=False):
-    print(f'Answer is {func(int(a), int(b))}')
+###############################################################################
 
 def cli():
-    opts = [ x.lower() for x in sys.argv[1:] if x.startswith('-')]
-    args = [ x.lower() for x in sys.argv[1:] if not x.startswith('-')]
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.version = __version__
+    parser.add_argument('-V', '--version', action='version')
+    parser.add_argument('-D', '--debug', action='count',
+        help='Increase debug level, e.g. -DDD = level 3.')
+    parser.add_argument('-v', '--verbose', action='store_true')
+    # nargs = ? for optional or + for one or more
+    parser.add_argument('filename', type=str, nargs='*', default='-',
+        help='Path to file.  Defaults to stdin.')
 
-    print(f'options: {opts}')
-    print(f'arguments: {args}')
+    args = parser.parse_args()
+    global DEBUG, VERBOSE
+    if args.debug:
+        DEBUG = args.debug
+        print(f'DEBUG LEVEL:{args.debug}')
+        print('Arguments:', args)
 
-    if len(args) != 2:
-        print('ERROR: Invalid number of arguments', file=sys.stderr)
-        raise SystemExit(USAGETEXT)  # this will error up the stack but will not print a stack trace and will return 1
-        return -1
+    VERBOSE = args.verbose
 
-    calc = add
-    if '-s' in opts:
-        calc = subtract
-    
-    output_calc(*args, calc)
+
+
+
     return 0
 
 if __name__=='__main__':
