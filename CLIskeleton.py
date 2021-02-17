@@ -4,10 +4,10 @@
 Template for building command line applications
 """
 __author__  = "Mark Butterworth"
-__version__ = "0.01 (May 2020)"
+__version__ = "0.1.0 202011"
 __license__ = "MIT"
 
-# Ver 0.01 0720  Initial version
+# Ver 0.1.0 202011  Initial version
 
 # Copyright 2020 Mark Butterworth
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -30,7 +30,8 @@ import sys
 import argparse
 
 DEBUG = 0
-VERBOSE = False
+VERBOSE = 0
+FORCE = False
 
 
 ###############################################################################
@@ -41,21 +42,25 @@ def cli():
     parser.add_argument('-V', '--version', action='version')
     parser.add_argument('-D', '--debug', action='count',
         help='Increase debug level, e.g. -DDD = level 3.')
-    parser.add_argument('-v', '--verbose', action='store_true')
-    # nargs = ? for optional or + for one or more
-    parser.add_argument('filename', type=str, nargs='*', default='-',
-        help='Path to file.  Defaults to stdin.')
+    parser.add_argument('-v', '--verbose', action='count',
+        help='Increase verbose level, e.g. -vv = level 2.')
+    parser.add_argument('-f', '--force', action='store_true')
+    # nargs = + = one or more, ? for optional or * multiple optional:
+    parser.add_argument('filename', type=str, nargs='+', default='-',
+        help='Path to file.  Defaults to "-" (stdin).')
 
     args = parser.parse_args()
-    global DEBUG, VERBOSE
+    global DEBUG, VERBOSE, FORCE
     if args.debug:
         DEBUG = args.debug
-        print(f'DEBUG LEVEL:{args.debug}')
+        print('Python version:', sys.version)
+        print('DEBUG LEVEL:', args.debug)
         print('Arguments:', args)
 
     VERBOSE = args.verbose
+    FORCE = args.force
 
-
+    # add functionailty, calls  etc here
 
 
     return 0

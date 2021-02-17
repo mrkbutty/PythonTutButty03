@@ -4,10 +4,10 @@
 Template for building command line applications
 """
 __author__  = "Mark Butterworth"
-__version__ = "0.01 (May 2020)"
+__version__ = "0.1.0 (Jul 2020)"
 __license__ = "MIT"
 
-# Ver 0.01 0720  Initial version
+# Ver 0.1.0 0720  Initial version
 
 # Copyright 2020 Mark Butterworth
 # Permission is hereby granted, free of charge, to any person obtaining a copy
